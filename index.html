@@ -15,21 +15,14 @@
         height: 100%;
         margin: 0;
         padding: 0;
-        color: #888;
+        color: transparent;
         box-sizing: border-box;
         overflow: hidden;
       }
       #wrapper {
         position: absolute;
         top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(250,250,250,1);
-        background: -moz-radial-gradient(center, ellipse cover, rgba(250,250,250,1) 0%, rgba(235,235,235,1) 74%, rgba(209,209,209,1) 100%);
-        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(250,250,250,1)), color-stop(74%, rgba(235,235,235,1)), color-stop(100%, rgba(209,209,209,1)));
-        background: -webkit-radial-gradient(center, ellipse cover, rgba(250,250,250,1) 0%, rgba(235,235,235,1) 74%, rgba(209,209,209,1) 100%);
-        background: -o-radial-gradient(center, ellipse cover, rgba(250,250,250,1) 0%, rgba(235,235,235,1) 74%, rgba(209,209,209,1) 100%);
-        background: -ms-radial-gradient(center, ellipse cover, rgba(250,250,250,1) 0%, rgba(235,235,235,1) 74%, rgba(209,209,209,1) 100%);
-        background: radial-gradient(ellipse at center, rgba(250,250,250,1) 0%, rgba(235,235,235,1) 74%, rgba(209,209,209,1) 100%);
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#d1d1d1', GradientType=1 );
+        background: transparent;
       }
 
       /* demo section */
@@ -37,7 +30,7 @@
       /* end of demo section */
     </style>
 
-    <title>Minecraft json model viewer</title>
+    <title>Minecraft JSON Skin Viewer</title>
 
   </head>
   <body>
@@ -49,21 +42,6 @@
     </div>
 
     <!-- Demo gui -->
-    <div class="sidebar">
-      <section>
-          <li>
-            <p>
-              <label for="camera-pos">Position <input type="text" id="camera-pos" onchange="setCameraPosition(this.value)"></label>
-            </p>
-          </li>
-          <li>
-            <p>
-              <label for="camera-target">Target <input type="text" id="camera-target" onchange="setCameraTarget(this.value)"></label>
-            </p>
-          </li>
-      </section>
-    </div>
-
     <div class="overlay" onclick="this.setAttribute('style', 'display: none;')" style="display: none;">
       <div id="modal" class="modal">
         <div class="content">
