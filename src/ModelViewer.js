@@ -11,7 +11,6 @@ function ModelViewer(container) {
 
 
   // container
-
   this.container = container
 
 
@@ -25,14 +24,11 @@ function ModelViewer(container) {
   // get element dimensions
   var rect = this.element.getBoundingClientRect()
 
-
   // camera
-
   this.camera = new THREE.PerspectiveCamera(60, rect.width / rect.height, 1, 1000)
   this.camera.position.x = 16
   this.camera.position.y = 16
   this.camera.position.z = 32
-
 
   // scene
 
@@ -52,33 +48,28 @@ function ModelViewer(container) {
 
 
   // renderer
-
   this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   this.renderer.setSize(rect.width, rect.height)
 
 
   // controls
-
   this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
   this.controls.enableDamping = true
   this.controls.dampingFactor = 0.2
-  this.controls.zoomSpeed = 1.4
-  this.controls.rotateSpeed = 0.6
+  this.controls.zoomSpeed = 
+  this.controls.rotateSpeed = 0.4
   this.controls.enableKeys = false
 
 
   // append viewer
-
   this.element.appendChild(this.renderer.domElement)
 
 
   // view methods
-
   var self = this
 
 
   // draw
-
   this.draw = function() {
 
     self.renderer.render(self.scene, self.camera)
@@ -87,7 +78,6 @@ function ModelViewer(container) {
 
 
   // animate
-
   this.animate = function() {
 
     window.requestAnimationFrame(self.animate)
@@ -99,7 +89,6 @@ function ModelViewer(container) {
 
 
   // resize
-
   this.resize = function() {
 
     var rect = self.element.getBoundingClientRect()
@@ -108,14 +97,12 @@ function ModelViewer(container) {
     self.camera.updateProjectionMatrix()
 
     self.renderer.setSize(rect.width, rect.height)
-
   }
 
 
   // models
 
   this.models = {}
-
 
   // model methods
 
@@ -135,7 +122,6 @@ function ModelViewer(container) {
     self.models[name] = model
 
     return self
-
   }
 
 
@@ -147,7 +133,6 @@ function ModelViewer(container) {
       throw new Error('Model "' + name + '" is not loaded.')
 
     return self.models[name]
-
   }
 
 
@@ -270,86 +255,14 @@ function ModelViewer(container) {
     var model = self.get(name)
     self.controls.target = model.getCenter()
 
-
   }
-
-
-  // create grid
-
-  var gridGeometry = new THREE.Geometry()
-  var gridMaterial = new THREE.LineBasicMaterial({color: 0xafafaf})
-
-  for (var i = -8; i <= 8; i++) {
-
-      gridGeometry.vertices.push(new THREE.Vector3(-8, -8, i))
-      gridGeometry.vertices.push(new THREE.Vector3(8, -8, i))
-
-      gridGeometry.vertices.push(new THREE.Vector3(i, -8, -8))
-      gridGeometry.vertices.push(new THREE.Vector3(i, -8, 8))
-
-  }
-
-  // arrow
-
-  gridGeometry.vertices.push(new THREE.Vector3(-1, -8, 9))
-  gridGeometry.vertices.push(new THREE.Vector3(1, -8, 9))
-
-  gridGeometry.vertices.push(new THREE.Vector3(1, -8, 9))
-  gridGeometry.vertices.push(new THREE.Vector3(0, -8, 10))
-
-  gridGeometry.vertices.push(new THREE.Vector3(0, -8, 10))
-  gridGeometry.vertices.push(new THREE.Vector3(-1, -8, 9))
-
-  var grid = new THREE.LineSegments(gridGeometry, gridMaterial)
-  grid.visible = true
-
-  this.scene.add(grid)
-  this.grid = grid
-
-
-  // grid methods
-
-  var self = this
-
-
-  // showGrid
-
-  this.showGrid = function() {
-
-    self.grid.visible = true
-
-  }
-
-
-  // hideGrid
-
-  this.hideGrid = function() {
-
-    self.grid.visible = false
-
-  }
-
-
-  // setGridColor
-
-  this.setGridColor = function(color) {
-
-    self.grid.material.color = new THREE.Color(color)
-
-  }
-
 
   this.animate()
-
-
 }
-
-
 
 /**
  *  JsonModel
  *****************************/
-
 function JsonModel(name, rawModel, texturesReference, clipUVs) {
 
 
@@ -383,9 +296,7 @@ function JsonModel(name, rawModel, texturesReference, clipUVs) {
     throw new Error('Couldn\'t parse json model. ' + e.message + '.')
   }
 
-
   // get textures and handle animated textures
-
   var textures = {}
   var references = []
 
@@ -533,7 +444,8 @@ function JsonModel(name, rawModel, texturesReference, clipUVs) {
 
     // create three js texture from image
     var loader = new THREE.TextureLoader()
-    var texture = loader.load(image)
+    var texture = loader.load(image);
+    //var texture = loader.load(image)
 
     // sharp pixels and smooth edges
     texture.magFilter = THREE.NearestFilter
