@@ -17,7 +17,7 @@ function ModelViewer(container) {
   // element
 
   this.element = document.createElement('div')
-  this.element.setAttribute('style', 'position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: auto; height: auto; overflow: hidden;')
+  this.element.setAttribute('style', 'position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: hidden;')
 
   this.container.appendChild(this.element)
 
@@ -33,6 +33,15 @@ function ModelViewer(container) {
   // scene
 
   this.scene = new THREE.Scene()
+
+  const texture = new THREE.TextureLoader().load("images/background.png");
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  
+  //If the screen gets resized afterwards, the background will stretch.
+  //This can be prevented, I'm just too lazy to figure out how.
+  texture.repeat.set(rect.width / 100, rect.height / 100);
+  this.scene.background = texture;
 
 
   // lights
@@ -541,7 +550,7 @@ function JsonModel(name, rawModel, texturesReference, clipUVs) {
       var t = element['to'][i]
       if (typeof f != 'number' || f < -16)
         throw new Error('"from" property for element "' + index + '" is invalid (got "' + f + '" for coordinate "' + ['x', 'y', 'z'][i] + '").')
-      if (typeof t != 'number' || t > 32)
+      if (typeof t != 'number' || t > 32.25)
         throw new Error('"to" property for element "' + index + '" is invalid (got "' + t + '" for coordinate "' + ['x', 'y', 'z'][i] + '").')
       if (t - f < 0)
         throw new Error('"from" property is bigger than "to" property for coordinate "' + ['x', 'y', 'z'][i] + '" in element "' + index + '".')

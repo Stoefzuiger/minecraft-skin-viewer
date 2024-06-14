@@ -19,6 +19,12 @@ function setTextures() {
 		]
 	}
 
+	if (!hasSkin && hasCape) {
+		textures = [
+			{name: 'cape', texture: baseURL+SearchParams.get('cape')}
+		]
+	}
+
 	if (textures == null) {
 		console.log("no texture assigned, using fallback.");
 		textures = [
