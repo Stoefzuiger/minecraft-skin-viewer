@@ -7,7 +7,7 @@ A 3d model viewer for minecraft skins. Requires [three.js](https://github.com/mr
 
 **:warning: Warning :warning:**
 
-The original author said this about the project: "This project is getting pretty old. I'm considering rewriting it but that'll take some time, so come back later!" That was 6 years ago. 
+The original author said this about the project: "This project is getting pretty old. I'm considering rewriting it but that'll take some time, so come back later!". That was 6 years ago. 
 
 This is just hijacking the demo functionality, and hosting it on github so it can be used in a .NET MAUI app; use this at your own risk. 
 
