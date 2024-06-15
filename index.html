@@ -7,16 +7,6 @@
 
     <style>
       body {
-        font-family: arial, sans-serif;
-        font-size: 16px;
-        line-height: 1.6;
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        background-color: transparent;
-        box-sizing: border-box;
         overflow: hidden;
       }
       #wrapper {
@@ -35,9 +25,6 @@
   <body>
 
     <div id="wrapper">
-
-      <!-- Viewer goes there -->
-
     </div>
 
     <!-- Demo gui -->
@@ -68,36 +55,7 @@
                 </li>
               </ul>
             </div>
-
-            <div class="right">
-              <b>Textures</b>
-              <ul>
-                <li>
-                  <p>
-                    Add texture <label for="loadtexture" class="input">Choose file...</label><input type="file" accept=".png" id="loadtexture" onchange="loadtexture(this.files)" multiple>
-                  </p>
-                </li>
-                <li>
-                  <div class="parentable">
-                    <div class="limitable">
-                      <table>
-                        <tbody id="textures">
-
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
           </div>
-
-          <footer>
-            <button type="button" class="primary" onclick="loadthing()">Load</button>
-            <button type="button" onclick="document.querySelector('.overlay').setAttribute('style', 'display: none;')">Close</button>
-          </footer>
-
         </div>
       </div>
     </div>
@@ -188,7 +146,6 @@
     </script>
     <!-- end of demo js -->
 
-    <!-- actual usage of the api -->
     <!-- Requires three.js and OrbitControls.js -->
     <script src="libs/three.min.js"></script>
     <script src="libs/OrbitControls.js"></script>
@@ -198,7 +155,6 @@
 
     <!-- Using the model viewer -->
     <script src="js/model.js"></script>
-
     <script src="js/textures.js"></script>
 
     <script type="text/javascript">
@@ -210,8 +166,8 @@
       var model = new JsonModel('demo', json, textures)
 
       viewer.load(model)
-      setCameraTarget("0 7.875 0")
-      setCameraPosition("17.500 7.875 -30.000")
+      setCameraTarget("0 8.75 0")
+      setCameraPosition("17.500 16 -30.000")
     </script>
 
   </body>

@@ -15,7 +15,6 @@ function ModelViewer(container) {
 
 
   // element
-
   this.element = document.createElement('div')
   this.element.setAttribute('style', 'position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: hidden;')
 
@@ -31,10 +30,21 @@ function ModelViewer(container) {
   this.camera.position.z = 32
 
   // scene
-
   this.scene = new THREE.Scene()
 
-  const texture = new THREE.TextureLoader().load("images/background.png");
+  const SearchParams = new URLSearchParams(window.location.search);
+  var hasBGChoice = SearchParams.has('bg');
+  var texture = null;
+
+  //Basic dark/light mode choice.
+  if (hasBGChoice) {
+    if (SearchParams.get('bg') == "dark") texture = new THREE.TextureLoader().load("images/dark.png");
+    else if (SearchParams.get('bg') == "light") texture = new THREE.TextureLoader().load("images/light.png"); 
+  }
+
+  //Default to dark.
+  if (texture == null) texture = new THREE.TextureLoader().load("images/dark.png");
+  
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   
@@ -45,7 +55,6 @@ function ModelViewer(container) {
 
 
   // lights
-
   var light
 
   light = new THREE.AmbientLight(0xffffff, 0.97)
@@ -73,10 +82,8 @@ function ModelViewer(container) {
   // append viewer
   this.element.appendChild(this.renderer.domElement)
 
-
   // view methods
   var self = this
-
 
   // draw
   this.draw = function() {
@@ -84,7 +91,6 @@ function ModelViewer(container) {
     self.renderer.render(self.scene, self.camera)
 
   }
-
 
   // animate
   this.animate = function() {
@@ -95,7 +101,6 @@ function ModelViewer(container) {
     self.draw()
 
   }
-
 
   // resize
   this.resize = function() {
@@ -108,18 +113,14 @@ function ModelViewer(container) {
     self.renderer.setSize(rect.width, rect.height)
   }
 
-
   // models
-
   this.models = {}
 
   // model methods
-
   var self = this
 
 
   // load
-
   this.load = function(model) {
 
     var name = model.modelName
@@ -135,7 +136,6 @@ function ModelViewer(container) {
 
 
   // get
-
   this.get = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
@@ -146,7 +146,6 @@ function ModelViewer(container) {
 
 
   // getAll
-
   this.getAll = function() {
 
     return Object.keys(self.models).map(function(name) {return self.models[name]})
@@ -155,7 +154,6 @@ function ModelViewer(container) {
 
 
   // remove
-
   this.remove = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
@@ -178,7 +176,6 @@ function ModelViewer(container) {
 
 
   // removeAll
-
   this.removeAll = function() {
 
     for (var i = self.scene.children.length - 1; i >= 0; i--) {
@@ -197,7 +194,6 @@ function ModelViewer(container) {
 
 
   // hide
-
   this.hide = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
@@ -210,7 +206,6 @@ function ModelViewer(container) {
 
 
   // hideAll
-
   this.hideAll = function() {
 
     Object.keys(self.models).forEach(function(name) {
@@ -223,7 +218,6 @@ function ModelViewer(container) {
 
 
   // show
-
   this.show = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
@@ -236,7 +230,6 @@ function ModelViewer(container) {
 
 
   // showAll
-
   this.showAll = function() {
 
     Object.keys(self.models).forEach(function(name) {
@@ -249,7 +242,6 @@ function ModelViewer(container) {
 
 
   // reset
-
   this.reset = function() {
 
     self.controls.reset()
@@ -258,7 +250,6 @@ function ModelViewer(container) {
 
 
   // lookAt
-
   this.lookAt = function(name) {
 
     var model = self.get(name)
