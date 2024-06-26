@@ -29,13 +29,14 @@ An example of such a URL is [https://textures.minecraft.net/texture/**9d61ad3a75
 These URLs can be fetched from Mojang's [Profile API endpoint](https://wiki.vg/Mojang_API#UUID_to_Profile_and_Skin.2FCape).
 
 You can append skins like this: ht<span>tps://</span>stoefzuiger.github.io/minecraft-skin-viewer/?model=[option]**&skin=[option]**.
+
 For example: [https://stoefzuiger.github.io/minecraft-skin-viewer/?model=wide&**skin=9d61ad3a75f62ba6a2104374bc4ed51cf90bc6ae76b8ef04c7d47b60611b50ab**](https://stoefzuiger.github.io/minecraft-skin-viewer/?model=wide&skin=9d61ad3a75f62ba6a2104374bc4ed51cf90bc6ae76b8ef04c7d47b60611b50ab).
 
 Note that only the last part of the texture link is appended.
 
 ### Cape
 You can choose to show a cape. These are again accessed from ht<span>tps://</span>textures.minecraft.net/texture/.
-You can append it like this: ht<span>tps://</span>stoefzuiger.github.io/minecraft-skin-viewer/?model=[option]&skin=[option]**&cape=[option]**.
+You can append a cape like this: ht<span>tps://</span>stoefzuiger.github.io/minecraft-skin-viewer/?model=[option]&skin=[option]**&cape=[option]**.
 
 For example: [https://stoefzuiger.github.io/minecraft-skin-viewer/?model=wide_cape&skin=9d61ad3a75f62ba6a2104374bc4ed51cf90bc6ae76b8ef04c7d47b60611b50ab&**cape=17912790ff164b93196f08ba71d0e62129304776d0f347334f8a6eae509f8a56**](https://stoefzuiger.github.io/minecraft-skin-viewer/?model=wide_cape&skin=9d61ad3a75f62ba6a2104374bc4ed51cf90bc6ae76b8ef04c7d47b60611b50ab&cape=17912790ff164b93196f08ba71d0e62129304776d0f347334f8a6eae509f8a56).
 
@@ -47,6 +48,8 @@ However, the game still does support legacy skins.
 To make sure legacy skins render correctly, you can append this: ht<span>tps://</span>stoefzuiger.github.io/minecraft-skin-viewer/?model=[option]&skin=[option]&cape=[option]**&isx32=true**.
 
 For example: [https://stoefzuiger.github.io/minecraft-skin-viewer/?model=wide_cape&skin=247c058845f3b6d0348aae56b6aa1a61c469d84cbaba048164050a1d335d6ea0&cape=17912790ff164b93196f08ba71d0e62129304776d0f347334f8a6eae509f8a56&**isx32=true**](https://stoefzuiger.github.io/minecraft-skin-viewer/?model=wide_cape&skin=247c058845f3b6d0348aae56b6aa1a61c469d84cbaba048164050a1d335d6ea0&cape=17912790ff164b93196f08ba71d0e62129304776d0f347334f8a6eae509f8a56&isx32=true).
+
+If the setting is omitted while requesting a legacy skin, rendering issues like [this](https://stoefzuiger.github.io/minecraft-skin-viewer/?model=wide_cape&skin=247c058845f3b6d0348aae56b6aa1a61c469d84cbaba048164050a1d335d6ea0&cape=17912790ff164b93196f08ba71d0e62129304776d0f347334f8a6eae509f8a56) occur.
 
 ### Background
 Finally, you can specify whether to use a dark or light background. The options are "dark" and "light".
