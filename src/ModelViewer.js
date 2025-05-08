@@ -11,36 +11,50 @@ function ModelViewer(container) {
 
 
   // container
-
   this.container = container
 
 
   // element
-
   this.element = document.createElement('div')
-  this.element.setAttribute('style', 'position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: auto; height: auto; overflow: hidden;')
+  this.element.setAttribute('style', 'position: absolute; top: 0; bottom: 0; left: 0; right: 0; overflow: hidden;')
 
   this.container.appendChild(this.element)
 
   // get element dimensions
   var rect = this.element.getBoundingClientRect()
 
-
   // camera
-
   this.camera = new THREE.PerspectiveCamera(60, rect.width / rect.height, 1, 1000)
   this.camera.position.x = 16
   this.camera.position.y = 16
   this.camera.position.z = 32
 
-
   // scene
-
   this.scene = new THREE.Scene()
+
+  const SearchParams = new URLSearchParams(window.location.search);
+  var hasBGChoice = SearchParams.has('bg');
+  var texture = null;
+
+  //Basic dark/light mode choice.
+  if (hasBGChoice) {
+    if (SearchParams.get('bg') == "dark") texture = new THREE.TextureLoader().load("images/dark.png");
+    else if (SearchParams.get('bg') == "light") texture = new THREE.TextureLoader().load("images/light.png"); 
+  }
+
+  //Default to dark.
+  if (texture == null) texture = new THREE.TextureLoader().load("images/dark.png");
+  
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  
+  //If the screen gets resized afterwards, the background will stretch.
+  //This can be prevented, I'm just too lazy to figure out how.
+  texture.repeat.set(rect.width / 100, rect.height / 100);
+  this.scene.background = texture;
 
 
   // lights
-
   var light
 
   light = new THREE.AmbientLight(0xffffff, 0.97)
@@ -52,42 +66,33 @@ function ModelViewer(container) {
 
 
   // renderer
-
   this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
   this.renderer.setSize(rect.width, rect.height)
 
 
   // controls
-
   this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement)
   this.controls.enableDamping = true
   this.controls.dampingFactor = 0.2
-  this.controls.zoomSpeed = 1.4
-  this.controls.rotateSpeed = 0.6
+  this.controls.zoomSpeed = 
+  this.controls.rotateSpeed = 0.4
   this.controls.enableKeys = false
 
 
   // append viewer
-
   this.element.appendChild(this.renderer.domElement)
 
-
   // view methods
-
   var self = this
 
-
   // draw
-
   this.draw = function() {
 
     self.renderer.render(self.scene, self.camera)
 
   }
 
-
   // animate
-
   this.animate = function() {
 
     window.requestAnimationFrame(self.animate)
@@ -97,9 +102,7 @@ function ModelViewer(container) {
 
   }
 
-
   // resize
-
   this.resize = function() {
 
     var rect = self.element.getBoundingClientRect()
@@ -108,22 +111,16 @@ function ModelViewer(container) {
     self.camera.updateProjectionMatrix()
 
     self.renderer.setSize(rect.width, rect.height)
-
   }
 
-
   // models
-
   this.models = {}
 
-
   // model methods
-
   var self = this
 
 
   // load
-
   this.load = function(model) {
 
     var name = model.modelName
@@ -135,24 +132,20 @@ function ModelViewer(container) {
     self.models[name] = model
 
     return self
-
   }
 
 
   // get
-
   this.get = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
       throw new Error('Model "' + name + '" is not loaded.')
 
     return self.models[name]
-
   }
 
 
   // getAll
-
   this.getAll = function() {
 
     return Object.keys(self.models).map(function(name) {return self.models[name]})
@@ -161,7 +154,6 @@ function ModelViewer(container) {
 
 
   // remove
-
   this.remove = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
@@ -184,7 +176,6 @@ function ModelViewer(container) {
 
 
   // removeAll
-
   this.removeAll = function() {
 
     for (var i = self.scene.children.length - 1; i >= 0; i--) {
@@ -203,7 +194,6 @@ function ModelViewer(container) {
 
 
   // hide
-
   this.hide = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
@@ -216,7 +206,6 @@ function ModelViewer(container) {
 
 
   // hideAll
-
   this.hideAll = function() {
 
     Object.keys(self.models).forEach(function(name) {
@@ -229,7 +218,6 @@ function ModelViewer(container) {
 
 
   // show
-
   this.show = function(name) {
 
     if (!(Object.keys(self.models).indexOf(name) >= 0))
@@ -242,7 +230,6 @@ function ModelViewer(container) {
 
 
   // showAll
-
   this.showAll = function() {
 
     Object.keys(self.models).forEach(function(name) {
@@ -255,7 +242,6 @@ function ModelViewer(container) {
 
 
   // reset
-
   this.reset = function() {
 
     self.controls.reset()
@@ -264,92 +250,19 @@ function ModelViewer(container) {
 
 
   // lookAt
-
   this.lookAt = function(name) {
 
     var model = self.get(name)
     self.controls.target = model.getCenter()
 
-
   }
-
-
-  // create grid
-
-  var gridGeometry = new THREE.Geometry()
-  var gridMaterial = new THREE.LineBasicMaterial({color: 0xafafaf})
-
-  for (var i = -8; i <= 8; i++) {
-
-      gridGeometry.vertices.push(new THREE.Vector3(-8, -8, i))
-      gridGeometry.vertices.push(new THREE.Vector3(8, -8, i))
-
-      gridGeometry.vertices.push(new THREE.Vector3(i, -8, -8))
-      gridGeometry.vertices.push(new THREE.Vector3(i, -8, 8))
-
-  }
-
-  // arrow
-
-  gridGeometry.vertices.push(new THREE.Vector3(-1, -8, 9))
-  gridGeometry.vertices.push(new THREE.Vector3(1, -8, 9))
-
-  gridGeometry.vertices.push(new THREE.Vector3(1, -8, 9))
-  gridGeometry.vertices.push(new THREE.Vector3(0, -8, 10))
-
-  gridGeometry.vertices.push(new THREE.Vector3(0, -8, 10))
-  gridGeometry.vertices.push(new THREE.Vector3(-1, -8, 9))
-
-  var grid = new THREE.LineSegments(gridGeometry, gridMaterial)
-  grid.visible = true
-
-  this.scene.add(grid)
-  this.grid = grid
-
-
-  // grid methods
-
-  var self = this
-
-
-  // showGrid
-
-  this.showGrid = function() {
-
-    self.grid.visible = true
-
-  }
-
-
-  // hideGrid
-
-  this.hideGrid = function() {
-
-    self.grid.visible = false
-
-  }
-
-
-  // setGridColor
-
-  this.setGridColor = function(color) {
-
-    self.grid.material.color = new THREE.Color(color)
-
-  }
-
 
   this.animate()
-
-
 }
-
-
 
 /**
  *  JsonModel
  *****************************/
-
 function JsonModel(name, rawModel, texturesReference, clipUVs) {
 
 
@@ -383,9 +296,7 @@ function JsonModel(name, rawModel, texturesReference, clipUVs) {
     throw new Error('Couldn\'t parse json model. ' + e.message + '.')
   }
 
-
   // get textures and handle animated textures
-
   var textures = {}
   var references = []
 
@@ -533,7 +444,8 @@ function JsonModel(name, rawModel, texturesReference, clipUVs) {
 
     // create three js texture from image
     var loader = new THREE.TextureLoader()
-    var texture = loader.load(image)
+    var texture = loader.load(image);
+    //var texture = loader.load(image)
 
     // sharp pixels and smooth edges
     texture.magFilter = THREE.NearestFilter
@@ -629,7 +541,7 @@ function JsonModel(name, rawModel, texturesReference, clipUVs) {
       var t = element['to'][i]
       if (typeof f != 'number' || f < -16)
         throw new Error('"from" property for element "' + index + '" is invalid (got "' + f + '" for coordinate "' + ['x', 'y', 'z'][i] + '").')
-      if (typeof t != 'number' || t > 32)
+      if (typeof t != 'number' || t > 32.25)
         throw new Error('"to" property for element "' + index + '" is invalid (got "' + t + '" for coordinate "' + ['x', 'y', 'z'][i] + '").')
       if (t - f < 0)
         throw new Error('"from" property is bigger than "to" property for coordinate "' + ['x', 'y', 'z'][i] + '" in element "' + index + '".')
